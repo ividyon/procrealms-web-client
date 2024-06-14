@@ -1,0 +1,18 @@
+@color--health: #63e2b7;
+@color--energy: #70c0e8;
+@color--stamina: #f2c97d;
+@color--food: #ff6983;
+@color--body: rgb(16, 16, 20);
+
+@battle-entity-width: 250px;
+
+.stroke(@color: #000, @size: 1px) {
+  text-shadow: -@size -@size 0 @color,
+    0 -@size 0 @color,
+    @size -@size 0 @color,
+  @size 0 0 @color,
+  @size @size 0 @color,
+  0 @size 0 @color,
+  -@size @size 0 @color,
+  -@size 0 0 @color;
+}

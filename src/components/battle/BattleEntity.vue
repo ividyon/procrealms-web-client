@@ -11,11 +11,11 @@
     'selected': isPlayerTarget(participant),
     'targeting-you': isTargetingPlayer(participant) && !isPlayer(participant),
   }" @click="target(participant)">
-<!--    <div class="prefix" v-show="hasPrefix(participant)" :class="{-->
-<!--      'casting': participant.isCasting,-->
-<!--    }">-->
-<!--      Casting...-->
-<!--    </div>-->
+    <!--    <div class="prefix" v-show="hasPrefix(participant)" :class="{-->
+    <!--      'casting': participant.isCasting,-->
+    <!--    }">-->
+    <!--      Casting...-->
+    <!--    </div>-->
     <div class="main-card">
       <div class="card-layer-1">
         <div class="card-layer-2">
@@ -46,55 +46,57 @@
               </div>
             </div>
 
-            <div class="target-row" v-if="participant.hpPercent > 0">
-              <div v-if="participant.targetName" v-html-safe="ansiToHtml(`Target: ${getTarget(participant)}`)"></div>
-            </div>
+            <!--            <div class="target-row" v-if="participant.hpPercent > 0">-->
+            <!--              <div v-if="participant.targetName" v-html-safe="ansiToHtml(`Target: ${getTarget(participant)}`)"></div>-->
+            <!--            </div>-->
           </div>
 
           <div class="vital-area" v-if="participant.hpPercent > 0">
-            <div class="vital-row">
-              <div class="vital-amount bold-green">
-                {{ entity && side === 'good' ? entity.hp : `${participant.hpPercent}%` }}
+            <div class="vital-row health">
+              <div class="vital-amount text-health">
+                {{ participant.hpPercent }}%
               </div>
-
               <NProgress
-                  class="vital-bar" type="line" status="success" aria-label="Health"
+                  class="vital-bar progress-health" type="line" aria-label="Health"
                   :stroke-width="16"
                   :percentage="entity && side === 'good' ? entity.hp / entity.maxHp * 100 : participant.hpPercent"
                   :show-indicator="false"
                   :border-radius="0"
-                  :height="10"
-              ></NProgress>
+                  :height="10"/>
+              <div class="vital-amount text-health" v-if="entity && side === 'good'">
+                {{ entity.hp }}
+              </div>
+              <div class="vital-amount" v-else />
             </div>
 
-            <div class="vital-row">
-              <div class="vital-amount bold-cyan">
-                {{ entity && side === 'good' ? entity.energy : `${participant.energyPercent}%` }}
+            <div class="vital-double-row">
+              <div class="vital-row energy">
+                <div class="vital-amount text-energy">
+                  {{ entity && side === 'good' ? entity.energy : `${participant.energyPercent}%` }}
+                </div>
+
+                <NProgress
+                    class="vital-bar progress-energy" type="line" aria-label="Energy"
+                    :stroke-width="16"
+                    :percentage="entity && side === 'good' ? entity.energy / entity.maxEnergy * 100 : participant.energyPercent"
+                    :show-indicator="false"
+                    :border-radius="0"
+                    :height="10"/>
               </div>
 
-              <NProgress
-                  class="vital-bar" type="line" status="default" aria-label="Energy"
-                  :stroke-width="16"
-                  :percentage="entity && side === 'good' ? entity.energy / entity.maxEnergy * 100 : participant.energyPercent"
-                  :show-indicator="false"
-                  :border-radius="0"
-                  :height="10"
-              ></NProgress>
-            </div>
+              <div class="vital-row stamina">
+                <div class="vital-amount text-stamina">
+                  {{ entity && side === 'good' ? entity.stamina : `${participant.staminaPercent}%` }}
+                </div>
 
-            <div class="vital-row">
-              <div class="vital-amount bold-yellow">
-                {{ entity && side === 'good' ? entity.stamina : `${participant.staminaPercent}%` }}
+                <NProgress
+                    class="vital-bar progress-stamina" type="line" aria-label="Stamina"
+                    :stroke-width="16"
+                    :percentage="entity && side === 'good' ? entity.stamina / entity.maxStamina * 100 : participant.staminaPercent"
+                    :show-indicator="false"
+                    :border-radius="0"
+                    :height="10"/>
               </div>
-
-              <NProgress
-                  class="vital-bar" type="line" status="warning" aria-label="Stamina"
-                  :stroke-width="16"
-                  :percentage="entity && side === 'good' ? entity.stamina / entity.maxStamina * 100 : participant.staminaPercent"
-                  :show-indicator="false"
-                  :border-radius="0"
-                  :height="10"
-              ></NProgress>
             </div>
           </div>
         </div>
@@ -159,7 +161,6 @@ const isTargetingPlayer = (participant) => {
 
 function getAffects (participant) {
   let affects = []
-  console.debug(participant)
   if (participant.isDead) {
     affects.push(ANSI.boldRed + 'DEAD' + ANSI.reset)
   }
@@ -170,8 +171,7 @@ function getAffects (participant) {
     affects.push(ANSI.boldYellow + 'HIDDEN' + ANSI.reset)
   }
 
-  affects = affects.concat(Object.entries(participant.affects)
-  .map(p => p[1].shortFlag))
+  affects = affects.concat(Object.entries(participant.affects).map(p => p[1].shortFlag))
   affects = affects.map(s => ansiToHtml(s)).filter(s => s.trim().length)
 
   return affects
@@ -214,6 +214,10 @@ function getTarget (participant) {
 @border-radius: 2px;
 @triangle-size: 12px;
 
+.battle-entity {
+
+  width: @battle-entity-width;
+}
 .main-card {
   position: relative;
   box-sizing: border-box;
@@ -222,7 +226,6 @@ function getTarget (participant) {
   flex-direction: column;
   justify-content: space-between;
   background-color: #462233;
-  width: 250px;
   border-radius: @border-radius;
   border: 1px solid transparent;
 
@@ -415,6 +418,7 @@ function getTarget (participant) {
     }
 
     .bonus-row {
+      min-height: calc(1lh + 4px);
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
@@ -441,8 +445,9 @@ function getTarget (participant) {
   }
 
   .vital-area {
-    padding: 2px 0;
+    padding: 5px 0 2px;
     display: flex;
+    gap: 5px;
     flex-direction: column;
     justify-content: space-between;
     background: rgba(black, 0.2);
@@ -450,16 +455,64 @@ function getTarget (participant) {
 
   .vital-row {
     display: flex;
-    flex-direction: row;
+    position: relative;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
-    padding-right: 5px;
 
     .vital-amount {
-      width: 50px;
-      text-align: right;
-      padding-right: 5px;
+      flex: 0 0 0;
+      flex-basis: 42px;
+      z-index: 1;
+      padding: 0 4px;
+      text-align: left;
       line-height: 1;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    .vital-bar {
+      border: 1px solid transparent;
+    }
+    &.health {
+      .vital-bar {
+        border-color: @color--health;
+      }
+    }
+    &.energy {
+      .vital-bar {
+        border-color: @color--energy;
+      }
+      .vital-amount {
+        text-align: right;
+      }
+    }
+    &.stamina {
+      .vital-bar {
+        border-color: @color--stamina;
+      }
+    }
+  }
+}
+
+.vital-double-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+
+  .vital-row {
+    flex-basis: 50%;
+    padding-right: 0;
+    &:first-child {
+      flex-direction: row;
+      .vital-bar {
+        rotate: 180deg;
+      }
+    }
+    &:last-child {
     }
   }
 }

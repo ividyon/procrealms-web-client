@@ -90,7 +90,7 @@ const { entity } = toRefs(props)
 
   .food {
     .n-progress .n-progress-graph-line-rail .n-progress-graph-line-fill {
-      background: #ff6983;
+      background: @color--food;
     }
   }
 }

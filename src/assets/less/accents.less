@@ -1,0 +1,46 @@
+.n-progress {
+  &.progress-health {
+    .n-progress-graph .n-progress-graph-line .n-progress-graph-line-rail {
+      background: rgba(@color--health, 0.12);
+      .n-progress-graph-line-fill {
+        background: @color--health;
+      }
+    }
+  }
+  &.progress-energy {
+    .n-progress-graph .n-progress-graph-line .n-progress-graph-line-rail {
+      background: rgba(@color--energy, 0.12);
+      .n-progress-graph-line-fill {
+        background: @color--energy;
+      }
+    }
+  }
+  &.progress-stamina {
+    .n-progress-graph .n-progress-graph-line .n-progress-graph-line-rail {
+      background: rgba(@color--stamina, 0.12);
+      .n-progress-graph-line-fill {
+        background: @color--stamina;
+      }
+    }
+  }
+  &.progress-food {
+    .n-progress-graph .n-progress-graph-line .n-progress-graph-line-rail {
+      background: rgba(@color--food, 0.12);
+      .n-progress-graph-line-fill {
+        background: @color--food;
+      }
+    }
+  }
+}
+.text-health {
+  color: @color--health;
+}
+.text-energy {
+  color: @color--energy;
+}
+.text-stamina {
+  color: @color--stamina;
+}
+.text-food {
+  color: @color--food;
+}

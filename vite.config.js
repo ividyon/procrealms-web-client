@@ -13,6 +13,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  css: {
+    preprocessorOptions: {
+      less: {
+        additionalData: '@import "@/assets/less/globals.less";'
+      }
+    }
+  },
   build: {
     rollupOptions: {
       output: {

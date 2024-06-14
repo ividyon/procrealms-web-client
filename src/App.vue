@@ -92,6 +92,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="less">
+@import "@/assets/less/accents.less";
+
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Open+Sans&family=Pixelify+Sans&family=Source+Code+Pro&family=Ubuntu+Mono&family=VT323&display=swap');
 
 @font-face {
